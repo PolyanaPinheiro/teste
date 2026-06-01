@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from .imagens import DADOS_TUTORIAIS
 # ==========================================
 # 1. PÁGINAS PRINCIPAIS E AUTENTICAÇÃO
 # ==========================================
@@ -126,78 +126,127 @@ def tutorial_page(request, category_id, tutorial_id):
     
     if not category:
         return redirect('home')
-
+    
     tutorial_title = ""
     steps = []
 
     # ====================================================================
     # TUTORIAL A: Ligações Suspeitas (O que você já tinha)
     # ====================================================================
-    if tutorial_id == 'identificar-golpes' or tutorial_id == 'links-suspeitos': 
-        # (Ajustei o ID para bater com a lista que você tem na categoria 'golpes-seguranca')
-        tutorial_title = 'Como Identificar Ligações Suspeitas'
-        steps = [
-            {
-                'id': 1,
-                'title': 'Identifique o número desconhecido',
-                'description': 'Quando o seu telemóvel tocar, olhe para o ecrã. Se aparecer "Spam suspeito", tenha cuidado.',
-                'tips': 'Nunca atenda ligações de números marcados como spam suspeito pelo telemóvel.',
-                'interactiveImage': '/static/IMG/spam_suspeito.jpg', 
-            },
-            {
-                'id': 2,
-                'title': 'Toque no botão vermelho para recusar',
-                'description': 'Para não atender a ligação, toque no botão vermelho. Ele costuma ficar no canto inferior esquerdo.',
-                'tips': 'Ao recusar, a pessoa não tem qualquer acesso ao seu telemóvel.',
-                'interactiveImage': '/static/IMG/botao_recusar.jpg', # Nova foto se houver
-            }
-        ]
+    if category_id == 'golpes-seguranca':
+        
+        if tutorial_id == 'identificar-golpes': 
+            passos_fotos = DADOS_TUTORIAIS.get('identificar-golpes', {})
+            tutorial_title = 'Como Identificar Ligações Suspeitas'
+            steps = [
+                {
+                    'id': 1,
+                    'title': 'Identifique o número desconhecido',
+                    'description': 'Quando o seu telemóvel tocar, olhe para o ecrã. Se aparecer "Spam suspeito", tenha cuidado.',
+                    'tips': 'Nunca atenda ligações de números marcados como spam suspeito pelo telemóvel.',
+                    'interactiveImage': passos_fotos.get(1, {}).get('arquivo', ''),
+                    'imageHotspots': passos_fotos.get(1, {}).get('hotspots', [])
+                },
+                {
+                    'id': 2,
+                    'title': 'Toque no botão vermelho para recusar',
+                    'description': 'Para não atender a ligação, toque no botão vermelho. Ele costuma ficar no canto inferior esquerdo.',
+                    'tips': 'Ao recusar, a pessoa não tem qualquer acesso ao seu telemóvel.',
+                    'interactiveImage': passos_fotos.get(2, {}).get('arquivo', ''),
+                    'imageHotspots': passos_fotos.get(2, {}).get('hotspots', [])
+                }
+            ]
+            
+        elif tutorial_id == 'senhas-seguras':
+            tutorial_title = 'Como Criar Senhas Seguras'
+            steps = [
+                {
+                    'id': 1,
+                    'title': 'Use uma combinação de letras, números e símbolos',
+                    'description': 'Crie uma senha que misture letras maiúsculas, minúsculas, números e símbolos para torná-la mais difícil de adivinhar.',
+                    'tips': 'Evite usar informações pessoais como nome ou data de nascimento.',
+                    'interactiveImage': '/static/IMG/senha_segura.jpg', 
+                },
+                {
+                    'id': 2,
+                    'title': 'Use senhas diferentes para cada conta',
+                    'description': 'Não use a mesma senha para várias contas. Se uma for comprometida, as outras também estarão em risco.',
+                    'tips': 'Considere usar um gerenciador de senhas para lembrar todas as suas senhas seguras.',
+                    'interactiveImage': '/static/IMG/gerenciador_senhas.jpg',
+                }
+            ]
 
     # ====================================================================
-    # TUTORIAL B: Como tirar foto (Novo tutorial adicionado!)
+    # 📱 CATEGORIA 2: FERRAMENTAS DO CELULAR
     # ====================================================================
-    elif tutorial_id == 'tirar-foto':
-        tutorial_title = 'Como Tirar uma Foto'
-        steps = [
-            {
-                'id': 1,
-                'title': 'Abra o aplicativo da Câmera',
-                'description': 'Procure na tela do seu celular pelo ícone que se parece com uma máquina fotográfica e toque nele.',
-                'tips': 'Geralmente ele fica na primeira página do seu celular.',
-                'interactiveImage': '/static/IMG/abrir_camera.jpg',
-            },
-            {
-                'id': 2,
-                'title': 'Segure o celular firme e mire no que quer fotografar',
-                'description': 'Olhe para a tela do celular e aponte para a pessoa, objeto ou paisagem que você deseja registrar.',
-                'tips': 'Tente segurar o celular com as duas mãos para a foto não sair tremida.',
-                'interactiveImage': '/static/IMG/mirar_foto.jpg',
-            },
-            {
-                'id': 3,
-                'title': 'Toque no grande botão branco para bater a foto',
-                'description': 'Na parte de baixo da tela, haverá um círculo grande e branco. Toque nele uma vez. Você ouvirá um som de clique!',
-                'tips': 'Pronto! A foto foi salva automaticamente e você pode vê-la na sua Galeria.',
-                'interactiveImage': '/static/IMG/clique_foto.jpg',
-            }
-        ]
+    elif category_id == 'ferramentas-celular':
+        
+        if tutorial_id == 'tirar-foto':
+            passos_fotos = DADOS_TUTORIAIS.get('tirar-foto', {})
+            tutorial_title = 'Como Tirar uma Foto'
+            steps = [
+                {
+                    'id': 1,
+                    'title': 'Abra o aplicativo da Câmera',
+                    'description': 'Procure na tela do seu celular pelo ícone que se parece com uma máquina fotográfica e toque nele.',
+                    'tips': 'Geralmente ele fica na primeira página do seu celular.',
+                    'interactiveImage': '/static/IMG/abrir_camera.jpg',
+                    'imageHotspots': passos_fotos.get(1, {}).get('hotspots', [])
+                },
+                {
+                    'id': 2,
+                    'title': 'Segure o celular firme e mire no que quer fotografar',
+                    'description': 'Olhe para a tela do celular e aponte para a pessoa, objeto ou paisagem que você deseja registrar.',
+                    'tips': 'Tente segurar o celular com as duas mãos para a foto não sair tremida.',
+                    'interactiveImage': '/static/IMG/mirar_foto.jpg',
+                    'imageHotspots': passos_fotos.get(2, {}).get('hotspots', [])
+                },
+                {
+                    'id': 3,
+                    'title': 'Toque no grande botão branco para bater a foto',
+                    'description': 'Na parte de baixo da tela, haverá um círculo grande e branco. Toque nele uma vez. Você ouvirá um som de clique!',
+                    'tips': 'Pronto! A foto foi salva automaticamente e você pode vê-la na sua Galeria.',
+                    'interactiveImage': '/static/IMG/mirar_foto.jpg',
+                    'imageHotspots': passos_fotos.get(3, {}).get('hotspots', [])
+                }
+            ]
 
     # ====================================================================
-    # TUTORIAL C: Como usar o Pix (Mais um exemplo)
+    # 💰 CATEGORIA 3: FINANÇAS E BANCOS
     # ====================================================================
-    elif tutorial_id == 'usar-pix':
-        tutorial_title = 'Como usar o Pix'
-        steps = [
-            {
-                'id': 1,
-                'title': 'Abra o aplicativo do seu Banco',
-                'description': 'Toque no ícone do seu banco e coloque sua senha para entrar na sua conta com segurança.',
-                'tips': 'Nunca anote sua senha atrás do celular.',
-                'interactiveImage': '/static/IMG/abrir_banco.jpg',
-            },
-            # ... adicione quantos passos quiser aqui ...
-        ]
+    elif category_id == 'financas-banco':
+        
+        if tutorial_id == 'usar-pix':
+            tutorial_title = 'Como usar o Pix'
+            steps = [
+                {
+                    'id': 1,
+                    'title': 'Abra o aplicativo do seu Banco',
+                    'description': 'Toque no ícone do seu banco e coloque sua senha para entrar na sua conta com segurança.',
+                    'tips': 'Nunca anote sua senha atrás do celular.',
+                    'interactiveImage': '/static/IMG/abrir_banco.jpg',
+                }
+            ]
+            
+        elif tutorial_id == 'app-banco':
+            tutorial_title = 'Como usar o aplicativo do banco'
+            steps = [
+                {
+                    'id': 1,
+                    'title': 'Abra o aplicativo do seu Banco',
+                    'description': 'Toque no ícone do seu banco e coloque sua senha para entrar na sua conta com segurança.',
+                    'tips': 'Nunca anote sua senha atrás do celular.',
+                    'interactiveImage': '/static/IMG/abrir_banco.jpg',
+                }
+            ]
 
+    # ====================================================================
+    # 💬 CATEGORIA 4: COMUNICAÇÃO (Caso queira adicionar passos no futuro)
+    # ====================================================================
+    elif category_id == 'comunicacao':
+        # Deixamos aberto para quando você quiser criar os passos dela
+        pass
+    
     # Se o usuário tentar acessar um tutorial que não existe nas condições acima
     if not steps:
         return redirect('home')
