@@ -38,8 +38,8 @@ DADOS_TUTORIAIS = {
         1: {
             'arquivo': '/static/IMG/abrir_camera.jpg',
             'hotspots': [{
-                'x': 60.0,
-                'y': 70.0, 
+                'x': 70.0,
+                'y': 40.0, 
                 'pulse': True,
                 'tipo': 'circulo',
                 }]
@@ -47,19 +47,19 @@ DADOS_TUTORIAIS = {
         2: {
             'arquivo': '/static/IMG/mirar_foto.jpg',
             'hotspots': [{
-                'x': 58.0, 
-                'y': 60.0,
-                'pulse': True,
+                'x': 50.0, 
+                'y': 40.0,
+                'pulse': False,
                 'tipo': 'quadrado',
-                'largura': 80,  #px
-                'altura': 100
+                'largura': 200,  #px
+                'altura':350
                 }]
         },
         3: {
             'arquivo': '/static/IMG/mirar_foto.jpg',
             'hotspots': [{
                 'x': 50.0, 
-                'y': 85.0, 
+                'y': 78.0, 
                 'pulse': True, 
                 'tipo': 'circulo'
             }]
