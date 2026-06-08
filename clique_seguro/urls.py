@@ -21,6 +21,7 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
+    path('criar-admin/', criar_admin, name='criar_admin'),
     
     # Autenticação
     path('login/', login_view, name='login'),
