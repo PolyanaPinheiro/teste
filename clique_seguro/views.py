@@ -243,8 +243,3 @@ def completed_tutorials_view(request):
         
     context = {'tutoriais_por_categoria': tutoriais_por_categoria, 'total_concluidos': progressos.count()}
     return render(request, 'completed_tutorials.html', context)
-
-def limpar_banco_duplicados(request):
-    # Deleta todas as configurações de SocialApp para garantir que a duplicata suma
-    SocialApp.objects.all().delete()
-    return HttpResponse("Banco de SocialApps limpo com sucesso! Agora vá ao Admin e cadastre apenas UM.")

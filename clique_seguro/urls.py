@@ -47,8 +47,3 @@ urlpatterns = [
     path('alternar-contraste/', toggle_contrast, name='toggle_contrast'),
 ]
 
-urlpatterns = [
-    # ... suas outras rotas
-    path('limpar-banco/', limpar_banco_duplicados),
-]
-
