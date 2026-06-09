@@ -27,7 +27,8 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'), # <-- ADICIONADO: Rota para sair da conta
     path('registro/', register_view, name='register'),
-    
+    path('accounts/', include('allauth.urls')),
+
     # Categorias e Tutoriais
     path('como-usar/', how_to_use_view, name='how_to_use'),
     path('categoria/<str:category_id>/', category_page, name='category'),
