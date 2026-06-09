@@ -3,12 +3,13 @@
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         
         <a href="{% url 'home' %}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="{% static '/img/logo.png' %}" 
-            alt="Logo Click Seguro" 
-            class="w-13 h-13 object-contain">
+            <img src="{% static 'img/logo.png' %}" 
+                alt="Logo Click Seguro" 
+                class="w-12 h-12 sm:w-16 sm:h-16 object-contain flex-shrink-0">
+            
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold {% if high_contrast %}text-white{% else %}text-gray-900{% endif %}">Clique Seguro</h1>
-                <p class="text-sm sm:text-base {% if high_contrast %}text-white{% else %}text-gray-600{% endif %}">Aprenda sem medo e com segurança</p>
+                <h1 class="text-xl sm:text-3xl font-bold {% if high_contrast %}text-white{% else %}text-gray-900{% endif %}">Clique Seguro</h1>
+                <p class="text-xs sm:text-base {% if high_contrast %}text-white{% else %}text-gray-600{% endif %}">Aprenda sem medo e com segurança</p>
             </div>
         </a>
 
