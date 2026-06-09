@@ -6,7 +6,6 @@ from main.models import Categoria, Tutorial, Passo, Progresso
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponse
-from allauth.socialaccount.models import SocialApp
 
 # ==========================================
 # 1. PÁGINAS PRINCIPAIS E AUTENTICAÇÃO
