@@ -41,7 +41,7 @@ def login_view(request):
                 'old_email': email
             })
             
-    return render(request, 'login.html')
+    return render(request, 'account/login.html')
 
 def logout_view(request):
     """Faz o logout do utilizador."""
