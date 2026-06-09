@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
-from .views import limpar_banco_duplicados
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +27,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'), # <-- ADICIONADO: Rota para sair da conta
     path('registro/', register_view, name='register'),
-    path('accounts/', include('allauth.urls')),
-
+    
     # Categorias e Tutoriais
     path('como-usar/', how_to_use_view, name='how_to_use'),
     path('categoria/<str:category_id>/', category_page, name='category'),
@@ -45,10 +43,5 @@ urlpatterns = [
     path('perfil/concluidos/', completed_tutorials_view, name='completed_tutorials'), 
     path('concluir/<str:tutorial_id>/', concluir_tutorial, name='concluir_tutorial'), # <-- ADICIONADO: Rota para registar progresso
     path('alternar-contraste/', toggle_contrast, name='toggle_contrast'),
-]
-
-urlpatterns = [
-    # ... suas outras rotas
-    path('limpar-banco/', limpar_banco_duplicados),
 ]
 

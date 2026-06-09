@@ -5,8 +5,6 @@ from django.contrib.auth.decorators import login_required
 from main.models import Categoria, Tutorial, Passo, Progresso
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.http import HttpResponse
-from allauth.socialaccount.models import SocialApp
 
 # ==========================================
 # 1. PÁGINAS PRINCIPAIS E AUTENTICAÇÃO
@@ -26,38 +24,24 @@ def login_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        # O campo pode vir como 'login' (template do allauth) ou 'email' (template antigo)
-        email = request.POST.get('login') or request.POST.get('email')
+        email = request.POST.get('email')
         senha = request.POST.get('password')
-
-        if not email or not senha:
-            return render(request, 'account/login.html', {
-                'form': {'errors': True},
-                'error': 'Por favor, preencha o e-mail e a palavra-passe.'
-            })
-
-        # Tenta encontrar o utilizador pelo e-mail
+        
+        if not User.objects.filter(username=email).exists():
+            return redirect('register')
+        
         user = authenticate(request, username=email, password=senha)
-
-        # Se não encontrou, tenta pelo campo email do User (para contas criadas via Google)
-        if user is None:
-            try:
-                u = User.objects.get(email=email)
-                user = authenticate(request, username=u.username, password=senha)
-            except User.DoesNotExist:
-                pass
-
+        
         if user is not None:
             login(request, user)
-            next_url = request.POST.get('next') or request.GET.get('next') or 'home'
-            return redirect(next_url)
+            return redirect('home')
         else:
-            return render(request, 'account/login.html', {
-                'form': {'errors': True},
+            return render(request, 'login.html', {
+                'error': 'Palavra-passe incorreta. Tente novamente.',
                 'old_email': email
             })
-
-    return render(request, 'account/login.html')
+            
+    return render(request, 'login.html')
 
 def logout_view(request):
     """Faz o logout do utilizador."""
@@ -243,8 +227,3 @@ def completed_tutorials_view(request):
         
     context = {'tutoriais_por_categoria': tutoriais_por_categoria, 'total_concluidos': progressos.count()}
     return render(request, 'completed_tutorials.html', context)
-
-def limpar_banco_duplicados(request):
-    # Deleta todas as configurações de SocialApp para garantir que a duplicata suma
-    SocialApp.objects.all().delete()
-    return HttpResponse("Banco de SocialApps limpo com sucesso! Agora vá ao Admin e cadastre apenas UM.")
