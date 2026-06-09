@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
+from .views import limpar_banco_duplicados
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,5 +45,10 @@ urlpatterns = [
     path('perfil/concluidos/', completed_tutorials_view, name='completed_tutorials'), 
     path('concluir/<str:tutorial_id>/', concluir_tutorial, name='concluir_tutorial'), # <-- ADICIONADO: Rota para registar progresso
     path('alternar-contraste/', toggle_contrast, name='toggle_contrast'),
+]
+
+urlpatterns = [
+    # ... suas outras rotas
+    path('limpar-banco/', limpar_banco_duplicados),
 ]
 
