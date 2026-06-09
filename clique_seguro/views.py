@@ -24,23 +24,37 @@ def login_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        email = request.POST.get('email')
+        # O campo pode vir como 'login' (template do allauth) ou 'email' (template antigo)
+        email = request.POST.get('login') or request.POST.get('email')
         senha = request.POST.get('password')
-        
-        if not User.objects.filter(username=email).exists():
-            return redirect('register')
-        
+
+        if not email or not senha:
+            return render(request, 'account/login.html', {
+                'form': {'errors': True},
+                'error': 'Por favor, preencha o e-mail e a palavra-passe.'
+            })
+
+        # Tenta encontrar o utilizador pelo e-mail
         user = authenticate(request, username=email, password=senha)
-        
+
+        # Se não encontrou, tenta pelo campo email do User (para contas criadas via Google)
+        if user is None:
+            try:
+                u = User.objects.get(email=email)
+                user = authenticate(request, username=u.username, password=senha)
+            except User.DoesNotExist:
+                pass
+
         if user is not None:
             login(request, user)
-            return redirect('home')
+            next_url = request.POST.get('next') or request.GET.get('next') or 'home'
+            return redirect(next_url)
         else:
-            return render(request, 'login.html', {
-                'error': 'Palavra-passe incorreta. Tente novamente.',
+            return render(request, 'account/login.html', {
+                'form': {'errors': True},
                 'old_email': email
             })
-            
+
     return render(request, 'account/login.html')
 
 def logout_view(request):
